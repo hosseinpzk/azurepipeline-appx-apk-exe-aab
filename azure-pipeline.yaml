@@ -1,0 +1,74 @@
+## Create this file in your repository root and modify according to your AGENT POOL and ... 
+
+trigger:
+  - main
+
+pool:
+  name: 'YOUR POOL AGENT NAME'  # Agent pool for building the Unity project
+
+steps:
+  - checkout: self  
+    persistCredentials: true
+    clean: true
+
+####### SLN
+  - script: |
+      "C:\Program Files\Unity\Hub\Editor\2022.3.43f1\Editor\Unity.exe" -quit -batchmode -projectPath "$(Build.SourcesDirectory)" -executeMethod BuildScript.BuildUWP -logFile "$(Build.ArtifactStagingDirectory)/unity.log"
+    displayName: 'Build UWP Solution using Unity'
+
+  - task: CopyFiles@2
+    inputs:
+      SourceFolder: 'D:\agent\_work\1\a\UWPBuild\YOUR-APP-NAME' # NAME YOUR FINAL FOLDER 
+      Contents: '**'  
+      TargetFolder: 'D:FINALSLN'
+    displayName: 'Copy sln to Final folder'
+####################################
+
+####### AAB
+  - script: |
+     "C:\Program Files\Unity\Hub\Editor\2022.3.43f1\Editor\Unity.exe" -quit -batchmode -projectPath "$(Build.SourcesDirectory)" -executeMethod BuildScript.BuildAAB -logFile "$(Build.ArtifactStagingDirectory)/unity.log"
+    displayName: 'Build AAB using Unity'
+
+  - task: CopyFiles@2
+    inputs:
+     SourceFolder: 'C:\agent\_work\1\a' 
+     Contents: '*.aab'  
+     TargetFolder: 'D:\FinalAAB'
+    displayName: 'Copy AAB to Final Folder'
+  
+  - task: CopyFiles@2
+    inputs:
+     SourceFolder: 'C:\Users\YOUR-WIN_USERNAME\Downloads\agent\_work\1\s\Library\Bee\Android\Prj\IL2CPP' #WINDOWS USERNAME ACCOUNT 
+     Contents: 'symbols.zip'  
+     TargetFolder: 'D:\FinalAAB'
+    displayName: 'Copy Symbols to final folder'
+##################################
+
+####### APK
+  - script: |
+     "C:\Program Files\Unity\Hub\Editor\2022.3.43f1\Editor\Unity.exe" -quit -batchmode -projectPath "$(Build.SourcesDirectory)" -executeMethod BuildScript.BuildAPK -logFile "$(Build.ArtifactStagingDirectory)/unity.log"
+    displayName: 'Build APK using Unity'
+
+  - task: CopyFiles@2
+    inputs:
+     SourceFolder: 'C:\agent\_work\1\a' 
+     Contents: '*.apk'
+     TargetFolder: 'D:\FinalAPK'
+    displayName: 'Copy APK to Desktop'
+#################################    
+
+######## Exe
+  - script: |
+      "C:\Program Files\Unity\Hub\Editor\2022.3.43f1\Editor\Unity.exe" -quit -batchmode -projectPath "$(Build.SourcesDirectory)" -executeMethod BuildScript.BuildWindows -logFile "$(Build.ArtifactStagingDirectory)/unity.log"
+    displayName: 'Build Windows EXE using Unity'
+
+  - task: CopyFiles@2
+    inputs:
+      SourceFolder: 'C:\agent\_work\1\a\WindowsBuild\YOURAPPNAME'  #modify
+      Contents: '**'  
+      TargetFolder: 'D:\FinalEXE' 
+    displayName: 'Copy Game Files to Desktop'
+################################
+
+  - script: type "$(Build.ArtifactStagingDirectory)\unity.log"
+    displayName: 'Show Unity Log'
