@@ -18,5 +18,6 @@ Build Script (C#) (BuildScript.cs at Assets/Editor/): Uses Unity’s build API t
 
 Modify the output paths or file names directly in BuildScript.cs.
 
-Happy Building! :)
+### Don't hesitate to contact me for more information.
+### Happy Building! :)
 
