@@ -2,6 +2,10 @@
 
 ### All 4 builds in one pipeline. apk(android) exe(windows) appx(microsoft store) aab(googleplay store)
 
+![Untitled Diagram drawio](https://github.com/user-attachments/assets/5006bea9-ae13-4e24-8b80-626b18c76b23)
+
+
+
 This project provides an automated pipeline to build ALL 4 using Unity. The pipeline leverages Azure DevOps for CI/CD and outputs the generated All 4 files and symbols to the D:/ .It’s designed for setups where the agent pool runs on a Windows Server.
 
 (here are the complete detailed steps to create your Windows agent and Azure agent pool 👉 https://learn.microsoft.com/en-us/azure/devops/pipelines/agents/windows-agent?view=azure-devops)
